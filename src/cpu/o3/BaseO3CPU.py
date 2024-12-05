@@ -107,24 +107,24 @@ class BaseO3CPU(BaseCPU):
     renameToFetchDelay = Param.Cycles(1 ,"Rename to fetch delay")
     iewToFetchDelay = Param.Cycles(1, "Issue/Execute/Writeback to fetch "
                                    "delay")
-    commitToFetchDelay = Param.Cycles(3, "Commit to fetch delay")
+    commitToFetchDelay = Param.Cycles(2, "Commit to fetch delay")
     fetchWidth = Param.Unsigned(16, "Fetch width")
     fetchBufferSize = Param.Unsigned(64, "Fetch buffer size in bytes")
-    fetchQueueSize = Param.Unsigned(48, "Fetch queue size in micro-ops "
+    fetchQueueSize = Param.Unsigned(64, "Fetch queue size in micro-ops "
                                     "per-thread")
 
     renameToDecodeDelay = Param.Cycles(1, "Rename to decode delay")
     iewToDecodeDelay = Param.Cycles(1, "Issue/Execute/Writeback to decode "
                                     "delay")
     commitToDecodeDelay = Param.Cycles(1, "Commit to decode delay")
-    fetchToDecodeDelay = Param.Cycles(4, "Fetch to decode delay")
-    decodeWidth = Param.Unsigned(6, "Decode width")
+    fetchToDecodeDelay = Param.Cycles(2, "Fetch to decode delay")
+    decodeWidth = Param.Unsigned(8, "Decode width")
 
     iewToRenameDelay = Param.Cycles(1, "Issue/Execute/Writeback to rename "
                                     "delay")
     commitToRenameDelay = Param.Cycles(1, "Commit to rename delay")
     decodeToRenameDelay = Param.Cycles(1, "Decode to rename delay")
-    renameWidth = Param.Unsigned(6, "Rename width")
+    renameWidth = Param.Unsigned(8, "Rename width")
 
     commitToIEWDelay = Param.Cycles(1, "Commit to "
                "Issue/Execute/Writeback delay")
@@ -138,10 +138,10 @@ class BaseO3CPU(BaseCPU):
     iewToCommitDelay = Param.Cycles(1, "Issue/Execute/Writeback to commit "
                "delay")
     renameToROBDelay = Param.Cycles(1, "Rename to reorder buffer delay")
-    commitWidth = Param.Unsigned(8, "Commit width")
+    commitWidth = Param.Unsigned(12, "Commit width")
 
-    squashWidth = Param.Unsigned(8, "Squash width with rollback rob walk")
-    replayWidth = Param.Unsigned(8, "Squash width with redo rob walk")
+    squashWidth = Param.Unsigned(12, "Squash width with rollback rob walk")
+    replayWidth = Param.Unsigned(12, "Squash width with redo rob walk")
     ConstSquashCycle = Param.Unsigned(1, "Squash width with redo rob walk")
     robWalkPolicy = Param.ROBWalkPolicy('Replay', "Squash with a specific policy")
 
@@ -153,11 +153,11 @@ class BaseO3CPU(BaseCPU):
     forwardComSize = Param.Unsigned(10,
             "Time buffer size for forward communication")
 
-    LQEntries = Param.Unsigned(80, "Number of load queue entries")
-    SQEntries = Param.Unsigned(64, "Number of store queue entries")
+    LQEntries = Param.Unsigned(128, "Number of load queue entries")
+    SQEntries = Param.Unsigned(96, "Number of store queue entries")
 
-    SbufferEntries = Param.Unsigned(16, "Number of store buffer entries")
-    SbufferEvictThreshold = Param.Unsigned(8, "store buffer eviction threshold")
+    SbufferEntries = Param.Unsigned(24, "Number of store buffer entries")
+    SbufferEvictThreshold = Param.Unsigned(7, "store buffer eviction threshold")
     storeBufferInactiveThreshold = Param.Unsigned(800, "store buffer writeback timeout threshold")
 
     LSQDepCheckShift = Param.Unsigned(0,
@@ -177,7 +177,7 @@ class BaseO3CPU(BaseCPU):
 
     numRobs = Param.Unsigned(1, "Number of Reorder Buffers");
 
-    numPhysIntRegs = Param.Unsigned(224,
+    numPhysIntRegs = Param.Unsigned(264,
             "Number of physical integer registers")
     numPhysFloatRegs = Param.Unsigned(192, "Number of physical floating point "
                                       "registers")
@@ -191,7 +191,7 @@ class BaseO3CPU(BaseCPU):
     numPhysRMiscRegs = Param.Unsigned(40, "Number of physical renameable misc registers")
 
     numDQEntries = Param.Unsigned(18, "Number of entries in the dispQue")
-    numROBEntries = Param.Unsigned(320, "Number of reorder buffer entries")
+    numROBEntries = Param.Unsigned(640, "Number of reorder buffer entries")
 
     smtNumFetchingThreads = Param.Unsigned(1, "SMT Number of Fetching Threads")
     smtFetchPolicy = Param.SMTFetchPolicy('RoundRobin', "SMT Fetch policy")
