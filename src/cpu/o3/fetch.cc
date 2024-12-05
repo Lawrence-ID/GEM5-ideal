@@ -1150,6 +1150,11 @@ Fetch::tick()
     for (threadFetched = 0; threadFetched < numFetchingThreads;
          threadFetched++) {
         // Fetch each of the actively fetching threads.
+
+        // 2fetch here will cause cpu stack!!
+        // DPRINTF(Fetch, "Fetching 1st block\n");
+        // fetch(status_change);
+        // DPRINTF(Fetch, "Fetching 2nd block\n");
         fetch(status_change);
     }
 
