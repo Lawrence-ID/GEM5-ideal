@@ -159,7 +159,7 @@ class BaseO3CPU(BaseCPU):
     SQEntries = Param.Unsigned(96, "Number of store queue entries")
 
     SbufferEntries = Param.Unsigned(24, "Number of store buffer entries")
-    SbufferEvictThreshold = Param.Unsigned(7, "store buffer eviction threshold")
+    SbufferEvictThreshold = Param.Unsigned(8, "store buffer eviction threshold")
     storeBufferInactiveThreshold = Param.Unsigned(800, "store buffer writeback timeout threshold")
 
     LSQDepCheckShift = Param.Unsigned(0,
