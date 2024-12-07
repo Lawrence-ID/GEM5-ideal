@@ -148,13 +148,13 @@ def addNoISAOptions(parser, configure_xiangshan=False):
     parser.add_argument("--num-l2caches", type=int, default=1)
     parser.add_argument("--num-l3caches", type=int, default=1)
 
-    parser.add_argument("--l1d_size", type=str, default="64kB")
+    parser.add_argument("--l1d_size", type=str, default="128kB")
     parser.add_argument("--l1d_assoc", type=int, default=8)
 
-    parser.add_argument("--l1i_size", type=str, default="64kB")
+    parser.add_argument("--l1i_size", type=str, default="128kB")
     parser.add_argument("--l1i_assoc", type=int, default=4)
 
-    parser.add_argument("--l2_size", type=str, default="1MB")
+    parser.add_argument("--l2_size", type=str, default="2MB")
     parser.add_argument("--l2_assoc", type=int, default=8)
 
     parser.add_argument("--l3_size", type=str, default="16MB")
