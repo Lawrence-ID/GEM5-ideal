@@ -334,6 +334,8 @@ def setKmhV3IdealParams(args, system):
         cpu.numDQEntries = [32, 16, 16] # 32->36
         cpu.mmu.itb.size = 96
 
+        cpu.scheduler.disableAllRegArb()
+
         for iq in cpu.scheduler.IQs:
             if iq.name.startswith('intIQ'):
                 iq.size = 2 * 24
