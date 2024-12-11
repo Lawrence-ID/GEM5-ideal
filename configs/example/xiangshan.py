@@ -319,7 +319,7 @@ def setKmhV3IdealParams(args, system):
         cpu.commitToFetchDelay = 2
         cpu.fetchQueueSize = 64
         cpu.fetchToDecodeDelay = 2
-        cpu.decodeWidth = 10
+        cpu.decodeWidth = 8
         cpu.renameWidth = 8
         cpu.dispWidth = [10, 10, 10] # 6->10
         cpu.commitWidth = 12
@@ -331,8 +331,9 @@ def setKmhV3IdealParams(args, system):
         cpu.numPhysIntRegs = 354
         cpu.numPhysFloatRegs = 384
         cpu.numROBEntries = 640
-        cpu.numDQEntries = [32, 16, 16] # 32->36
+        cpu.numDQEntries = [32, 16, 16]
         cpu.mmu.itb.size = 96
+        cpu.SbufferEvictThreshold = 8
 
         cpu.scheduler.disableAllRegArb()
 
@@ -348,7 +349,7 @@ def setKmhV3IdealParams(args, system):
 
         # ideal decoupled frontend
         if args.bp_type is None or args.bp_type == 'DecoupledBPUWithFTB':
-            # cpu.branchPred.enableTwoTaken = True
+            cpu.branchPred.enableTwoTaken = True
             cpu.branchPred.numBr = 4
             cpu.branchPred.tage.enableSC = False # TODO(bug): When numBr changes, enabling SC will trigger an assert
             cpu.branchPred.ftq_size = 256
