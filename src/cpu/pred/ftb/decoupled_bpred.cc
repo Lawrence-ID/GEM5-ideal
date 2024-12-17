@@ -604,6 +604,10 @@ DecoupledBPUWithFTB::tick()
         dbpFtbStats.fsqFullCannotEnq++;
     }
 
+    if (!receivedPred && numOverrideBubbles == 0 && sentPCHist) {
+        numOverrideBubbles = generateFinalPredAndCreateBubbles();
+    }
+
     if (!squashing) {
         DPRINTF(DecoupleBP, "DecoupledBPUWithFTB::tick()\n");
         DPRINTF(Override, "DecoupledBPUWithFTB::tick()\n");
@@ -662,10 +666,6 @@ DecoupledBPUWithFTB::tick()
         DPRINTF(Override, "Stream queue is full, don't request prediction\n");
     }
     squashing = false;
-
-    if (!receivedPred && numOverrideBubbles == 0 && sentPCHist) {
-        numOverrideBubbles = generateFinalPredAndCreateBubbles();
-    }
 }
 
 // ideal_tick() is copied from commit: e7294f1813c331dbce8bcfa4d5eb981f7c8440c5
@@ -752,6 +752,7 @@ DecoupledBPUWithFTB::ideal_tick()
 
         if (!receivedPred && numOverrideBubbles == 0 && sentPCHist) {
             tempNumOverrideBubbles = std::max(generateFinalPredAndCreateBubbles(), tempNumOverrideBubbles);
+            generateAndSetNewFetchStream();
             if (!enableTwoTaken) {
                 numOverrideBubbles = tempNumOverrideBubbles;
             } else {
@@ -837,8 +838,6 @@ DecoupledBPUWithFTB::generateFinalPredAndCreateBubbles()
 
     DPRINTF(Override, "Ends generateFinalPredAndCreateBubbles(), numOverrideBubbles is %d,"
                       "receivedPred is set true.\n", bubblesToCreate);
-
-    generateAndSetNewFetchStream();
 
     return bubblesToCreate;
 }
@@ -2119,8 +2118,15 @@ DecoupledBPUWithFTB::tryEnqFetchStream()
     }
     assert(!streamQueueFull());
 
-    // enqueue fetch stream
-    enqueueFetchStream();
+    if (!enableTwoTaken) {
+        // Make new prediction here and enqueue the fetch stream.
+        generateAndSetNewFetchStream();
+        enqueueFetchStream();
+    } else {
+        // The stream entry has been set at the previous ideal_tick(),
+        // so at this point, we only need to enqueue the fetch stream.
+        enqueueFetchStream();
+    }
 
     for (int i = 0; i < numStages; i++) {
         predsOfEachStage[i].valid = false;
